@@ -3,7 +3,7 @@
 (package-initialize)
 (add-to-list 'package-archives '("Melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("MELPA Stable" . "https://stable.melpa.org/packages/"))
-
+(setq inhibit-startup-screen 1)
 (let* ((packages
 	'(auto-compile
 	  company
@@ -17,12 +17,16 @@
 	  magit
 	  markdown-mode
 	  monokai-theme
+          pydoc-info
 	  pyvenv
 	  zenburn-theme))
        (packages (remove-if 'package-installed-p packages)))
   (when packages
     (ignore-errors (package-refresh-contents)
 		   (mapcar 'package-install packages))))
+
+(add-to-list 'load-path "/usr/share/info/python.info")
+(require 'pydoc-info)
 
 (require 'idle-require)
 
@@ -140,3 +144,14 @@
 	    (jedi-mode 1)
 	    (company-quickhelp-mode 1)
 	    ))
+(add-hook 'c-mode-hook
+          (lambda ()
+            (add-to-list 'company-backends 'company-clang)
+            ))
+
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (add-to-list 'company-backends 'company-clang)
+            ))
+;; C stuff
+(setq-default c-basic-offset 4)
