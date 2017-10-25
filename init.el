@@ -13,10 +13,12 @@
 	  flycheck
 	  idle-require
 	  helm
+          helm-pydoc
 	  helm-company
 	  magit
 	  markdown-mode
 	  monokai-theme
+          pydoc
           pydoc-info
 	  pyvenv
 	  zenburn-theme))
