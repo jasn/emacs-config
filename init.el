@@ -11,6 +11,7 @@
 	  company-quickhelp
 	  fill-column-indicator
 	  flycheck
+          go-mode
 	  idle-require
 	  helm
           helm-pydoc
@@ -157,3 +158,9 @@
             ))
 ;; C stuff
 (setq-default c-basic-offset 4)
+
+;; GO stuff
+(add-hook 'go-mode-hook (lambda ()
+                          (add-hook 'before-save-hook 'gofmt-before-save)
+                          (setq tab-width 4)
+                          (setq indent-tab-mode 1)))
