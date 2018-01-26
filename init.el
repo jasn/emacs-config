@@ -173,7 +173,7 @@
 ;; go get https://github.com/rogpeppe/godef
 ;; go install github.com/rogpeppe/godef
 ;; remember to put ~/go/bin in PATH
-(add-to-list 'load-path "/home/jesper/.emacs.d/gomode/")
+(add-to-list 'load-path "~/.emacs.d/gomode/")
 (require 'go-mode-load)
 (require 'company)
 (require 'company-go)
