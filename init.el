@@ -7,21 +7,24 @@
 (let* ((packages
 	'(auto-compile
 	  company
-	  company-jedi			; remember to clone jedi and replace the automatically installed version in .emacs.d/.python-environments
-	  company-quickhelp
+	  ;;company-jedi			; remember to clone jedi and replace the automatically installed version in .emacs.d/.python-environments
+	  ;;company-quickhelp
+          elpy
 	  fill-column-indicator
 	  flycheck
           go-mode
 	  idle-require
+          jedi-direx
 	  helm
           helm-pydoc
 	  helm-company
 	  magit
 	  markdown-mode
 	  monokai-theme
-          pydoc
-          pydoc-info
-	  pyvenv
+          multi-term
+          ;;pydoc
+          ;;pydoc-info
+	  ;;pyvenv
 	  zenburn-theme))
        (packages (remove-if 'package-installed-p packages)))
   (when packages
@@ -50,7 +53,7 @@
 (setq-default fill-column 79
 	      truncate-lines t
 	      indent-tabs-mode nil
-	      show-trailing-whitespace t)
+	      show-trailing-whitespace 0)
 
 (defvar emacs-autosave-directory
   (concat user-emacs-directory "autosaves/")
@@ -138,14 +141,17 @@
 
 (add-hook 'python-mode-hook
 	  (lambda ()
+            (elpy-mode 1)
+            (highlight-indentation-mode 0)
+            (setq show-trailing-whitespace 1)
 	    (setq fci-rule-width 3)
 	    (setq fci-rule-color "red")
 	    (setq fci-rule-column 79)
 	    ;; (flycheck-mode 1)
-	    (company-mode 1)
-	    (add-to-list 'company-backends 'company-jedi)
-	    (jedi-mode 1)
-	    (company-quickhelp-mode 1)
+	    ;;(company-mode 1)
+	    ;;(add-to-list 'company-backends 'company-jedi)
+	    ;;(jedi-mode 1)
+	    ;;(company-quickhelp-mode 1)
 	    ))
 (add-hook 'c-mode-hook
           (lambda ()
@@ -164,3 +170,10 @@
                           (add-hook 'before-save-hook 'gofmt-before-save)
                           (setq tab-width 4)
                           (setq indent-tab-mode 1)))
+
+;; (defun my-extract-variable-refactor (variable-name rb re)
+;;   (interactive
+;;    (let ((string (read-string "Variable name: " nil nil)))
+;;      (list string (region-beginning) (region-end)))
+;;    )
+;;   (message "%s %s" bar (buffer-substring rb re)))
