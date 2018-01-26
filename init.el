@@ -7,12 +7,13 @@
 (let* ((packages
 	'(auto-compile
 	  company
-	  ;;company-jedi			; remember to clone jedi and replace the automatically installed version in .emacs.d/.python-environments
-	  ;;company-quickhelp
+	  company-quickhelp
+          company-go
           elpy
 	  fill-column-indicator
 	  flycheck
-          go-mode
+          ;;go-mode
+          godoctor
 	  idle-require
           jedi-direx
 	  helm
@@ -165,15 +166,34 @@
 ;; C stuff
 (setq-default c-basic-offset 4)
 
+
 ;; GO stuff
+;; git clone https://github.com/dominikh/go-mode.el.git ~/.emacs.d/gomode
+;; M-x update-file-autoloads   1st arg: gomode/go-mode.el   2nd arg: gomode/go-mode-load.el
+;; go get https://github.com/rogpeppe/godef
+;; go install github.com/rogpeppe/godef
+;; remember to put ~/go/bin in PATH
+(add-to-list 'load-path "/home/jesper/.emacs.d/gomode/")
+(require 'go-mode-load)
+(require 'company)
+(require 'company-go)
+
+(setq company-tooltip-limit 20)                      ; bigger popup window
+(setq company-idle-delay 0.3)                        ; decrease delay before autocompletion popup shows
+(setq company-echo-delay 0)                          ; remove annoying blinking
+(setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+
 (add-hook 'go-mode-hook (lambda ()
                           (add-hook 'before-save-hook 'gofmt-before-save)
                           (setq tab-width 4)
-                          (setq indent-tab-mode 1)))
-
+                          (setq indent-tab-mode 1)
+                          (local-set-key (kbd "M-.") 'godef-jump)
+                          (local-set-key (kbd "C-c i") 'go-goto-imports)
+                          (local-set-key (kbd "C-.") 'company-go)))
 ;; (defun my-extract-variable-refactor (variable-name rb re)
 ;;   (interactive
 ;;    (let ((string (read-string "Variable name: " nil nil)))
 ;;      (list string (region-beginning) (region-end)))
 ;;    )
 ;;   (message "%s %s" bar (buffer-substring rb re)))
+
