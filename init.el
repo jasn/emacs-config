@@ -183,17 +183,31 @@
 (setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 
+;; flycheck-gometalinter stuff
+(require 'flycheck-gometalinter)
+;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
+(setq flycheck-gometalinter-vendor t)
+;; only show errors
+(setq flycheck-gometalinter-errors-only t)
+;; only run fast linters
+(setq flycheck-gometalinter-fast t)
+;; use in tests files
+(setq flycheck-gometalinter-test t)
+;; disable linters
+(setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
+;; Only enable selected linters
+(setq flycheck-gometalinter-disable-all t)
+(setq flycheck-gometalinter-enable-linters '("golint"))
+;; Set different deadline (default: 5s)
+(setq flycheck-gometalinter-deadline "10s")
+
 (add-hook 'go-mode-hook (lambda ()
+                          (flycheck-mode)
                           (add-hook 'before-save-hook 'gofmt-before-save)
+                          (setq gofmt-command "goimports")
                           (setq tab-width 4)
                           (setq indent-tab-mode 1)
                           (local-set-key (kbd "M-.") 'godef-jump)
                           (local-set-key (kbd "C-c i") 'go-goto-imports)
                           (local-set-key (kbd "C-.") 'company-go)))
-;; (defun my-extract-variable-refactor (variable-name rb re)
-;;   (interactive
-;;    (let ((string (read-string "Variable name: " nil nil)))
-;;      (list string (region-beginning) (region-end)))
-;;    )
-;;   (message "%s %s" bar (buffer-substring rb re)))
 
