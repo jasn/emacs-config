@@ -32,8 +32,6 @@
     (ignore-errors (package-refresh-contents)
 		   (mapcar 'package-install packages))))
 
-(add-to-list 'load-path "/usr/share/info/python.info")
-(require 'pydoc-info)
 
 (require 'idle-require)
 
