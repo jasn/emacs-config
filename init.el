@@ -33,7 +33,6 @@
 		   (mapcar 'package-install packages))))
 
 
-(require 'idle-require)
 
 (dolist (feature
 	 '(auto-compile
@@ -99,11 +98,6 @@
       projectile-completion-system 'helm)
 
 (helm-mode 1)
-
-;; jedi
-(require 'company-jedi)
-;; (setq jedi:server-args '("--virtual-env ~/venv"
-;; 			 "--virtual-env ~/webenv"))
 
 (define-key custom-bindings-map (kbd "C-c h")   'helm-command-prefix)
 (define-key custom-bindings-map (kbd "M-x")     'helm-M-x)
@@ -175,7 +169,7 @@
 (require 'go-mode-load)
 (require 'company)
 (require 'company-go)
-
+;; (add-to-list company-go-gocode-args "set lib-path /Users/jasn/gocode/src/code.uber.internal/compute/control-plane.git/.tmp/.goroot/pkg/darwin_amd64")
 (setq company-tooltip-limit 20)                      ; bigger popup window
 (setq company-idle-delay 0.3)                        ; decrease delay before autocompletion popup shows
 (setq company-echo-delay 0)                          ; remove annoying blinking
@@ -202,6 +196,8 @@
 (add-hook 'go-mode-hook (lambda ()
                           (flycheck-mode)
                           (add-hook 'before-save-hook 'gofmt-before-save)
+                          (set (make-local-variable 'company-backends) '(company-go))
+                          (company-mode)
                           (setq gofmt-command "goimports")
                           (setq tab-width 4)
                           (setq indent-tab-mode 1)
